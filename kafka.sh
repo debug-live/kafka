@@ -8,8 +8,16 @@ bin/zookeeper-server-start.sh config/zookeeper.properties &
 # Setting up a multi-broker cluster
 cp config/server.properties config/server-1.properties
 cp config/server.properties config/server-2.properties
-sed -i -e 's/broker.id=0/broker.id=1/' -e 's/#listeners=PLAINTEXT:\/\/:9092/listeners=PLAINTEXT:\/\/:9093/' -e 's/log.dirs=\/tmp\/kafka-logs/log.dirs=\/tmp\/kafka-logs-1/' config/server-1.properties
-sed -i -e 's/broker.id=0/broker.id=2/' -e 's/#listeners=PLAINTEXT:\/\/:9092/listeners=PLAINTEXT:\/\/:9094/' -e 's/log.dirs=\/tmp\/kafka-logs/log.dirs=\/tmp\/kafka-logs-2/' config/server-2.properties
+
+sed -i -e 's/broker.id=0/broker.id=1/' \
+       -e 's/#listeners=PLAINTEXT:\/\/:9092/listeners=PLAINTEXT:\/\/:9093/' \
+       -e 's/log.dirs=\/tmp\/kafka-logs/log.dirs=\/tmp\/kafka-logs-1/' \
+       config/server-1.properties
+
+sed -i -e 's/broker.id=0/broker.id=2/' \
+       -e 's/#listeners=PLAINTEXT:\/\/:9092/listeners=PLAINTEXT:\/\/:9094/' \
+       -e 's/log.dirs=\/tmp\/kafka-logs/log.dirs=\/tmp\/kafka-logs-2/' \
+       config/server-2.properties
 
 bin/kafka-server-start.sh config/server.properties &
 bin/kafka-server-start.sh config/server-1.properties &
